@@ -1,4 +1,4 @@
-dpragma solidity >=0.4.22 <0.6.0;
+pragma solidity >=0.4.22 <0.6.0;
 
 contract ChoiHo {
     enum HoState {SETUP, JOINING, VOTING}
@@ -20,6 +20,10 @@ contract ChoiHo {
         balance = _balance;
         numberOfUser = _numberOfUser;
         currentState = HoState.JOINING;
+    }
+
+    function getCurrentState() public view returns (HoState, uint, uint) {
+        return (currentState, balance, numberOfUser);
     }
    
     function join(string memory _message) public  {
@@ -46,7 +50,6 @@ contract ChoiHo {
     }
     
     function vote(uint _userId) public payable {
-        require(msg.value == balance);
         require(userState[_userId] == 1);
         voteNumber[_userId]++;
         if (voteNumber[_userId] > voteNumber[maxVoted])
